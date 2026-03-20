@@ -3,12 +3,17 @@ export interface BaseReponse<T> {
   data: T
 }
 
+export interface PaginationMeta {
+  total: number
+  page: number
+  limit: number
+  totalPages: number
+}
+
 export interface PaginationReponse<T> {
   success: boolean
   data: T[]
-  meta: {
-    total: number
-    page: number
-    pageSize: number
-  }
+  meta: PaginationMeta
 }
+
+export type BasePaginatedResponse<T> = BaseReponse<PaginationReponse<T>>
