@@ -10,19 +10,15 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { TEAMS_CONFIG } from '@/lib/config/teams.config'
-import type { NavUser as NavUserType } from '@/types'
+import { TeamSwitcher } from './team-switcher'
 import { NavMain } from './nav-main'
 import { NavUser } from './nav-user'
-import { TeamSwitcher } from './team-switcher'
-
-const USER: NavUserType = {
-  name: 'John Doe',
-  email: 'john@acme.com',
-}
+import { useUserStore } from '@/stores/user.store'
 
 export function AppSidebar() {
   const pathname = usePathname()
   const teamId = pathname.split('/')[1]
+  const user = useUserStore((state) => state.user)
 
   const activeTeam =
     TEAMS_CONFIG.find((t) => t.id === teamId) ?? TEAMS_CONFIG[0]
@@ -53,7 +49,13 @@ export function AppSidebar() {
         <NavMain items={navItems} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={USER} />
+        <NavUser
+          user={{
+            name: user?.name ?? '',
+            email: user?.email ?? '',
+            avatar: user?.profile?.avatarUrl,
+          }}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

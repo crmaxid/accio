@@ -23,23 +23,30 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { useRouter } from 'next/navigation'
 import type { NavUser } from '@/types'
+import { toast } from 'sonner'
+import { useAuth } from '@/services'
+import { getInitials } from '@/lib/utils/format'
 
 type NavUserProps = {
   user: NavUser
 }
 
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
-
 export function NavUser({ user }: NavUserProps) {
+  const router = useRouter()
   const { isMobile } = useSidebar()
+  const { logout } = useAuth()
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => router.push('/login'),
+      onError: () => {
+        toast.error('Logout failed. Please try again.')
+        router.push('/login')
+      },
+    })
+  }
 
   return (
     <SidebarMenu>
@@ -122,7 +129,10 @@ export function NavUser({ user }: NavUserProps) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="my-1" />
-            <DropdownMenuItem className="gap-2.5 rounded-lg px-2 py-2 text-[13px] text-red-500 focus:text-red-500">
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="gap-2.5 rounded-lg px-2 py-2 text-[13px] text-red-500 focus:text-red-500"
+            >
               <HugeiconsIcon
                 icon={Logout01Icon}
                 className="size-4"

@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         hostname: 'api.minio.runeforge.tech',
       },
     ],
+    qualities: [75, 85, 100],
   },
 
   async rewrites() {
