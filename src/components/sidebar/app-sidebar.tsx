@@ -13,7 +13,7 @@ import { TEAMS_CONFIG } from '@/lib/config/teams.config'
 import { TeamSwitcher } from './team-switcher'
 import { NavMain } from './nav-main'
 import { NavUser } from './nav-user'
-import { useUserStore } from '@/stores/user.store'
+import { useUserStore } from '@/stores'
 
 export function AppSidebar() {
   const pathname = usePathname()

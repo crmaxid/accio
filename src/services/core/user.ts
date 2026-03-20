@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { core } from '@/lib'
-import { useUserStore } from '@/stores/user.store'
 import { UserInforResponse } from '@/types'
+import { useUserStore } from '@/stores'
 
 const USER_QUERY_KEY = 'user'
 
