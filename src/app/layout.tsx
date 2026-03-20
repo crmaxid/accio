@@ -4,6 +4,7 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Providers } from './providers'
+import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <Providers>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster position="top-right" />
         </Providers>
       </body>
     </html>

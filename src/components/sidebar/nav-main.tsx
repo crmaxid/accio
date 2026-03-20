@@ -36,7 +36,6 @@ export function NavMain({ items }: NavMainProps) {
       <SidebarMenu className="gap-0.5">
         {items.map((item) =>
           item.items?.length ? (
-            // ── Collapsible group ──────────────────────────────────────────
             <Collapsible
               key={item.title}
               asChild
@@ -55,7 +54,7 @@ export function NavMain({ items }: NavMainProps) {
                     {item.icon && (
                       <HugeiconsIcon
                         icon={item.icon}
-                        className="size-[18px] shrink-0"
+                        className="size-4.5 shrink-0"
                         strokeWidth={2}
                         color="#475569"
                       />
@@ -72,7 +71,7 @@ export function NavMain({ items }: NavMainProps) {
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <SidebarMenuSub className="ml-[18px] border-l border-slate-100 px-0 py-0.5">
+                  <SidebarMenuSub className="ml-4.5 border-l border-slate-100 px-0 py-0.5">
                     {item.items.map((sub) => {
                       const isActive = pathname === sub.url
                       return (
@@ -92,7 +91,7 @@ export function NavMain({ items }: NavMainProps) {
                               {sub.icon && (
                                 <HugeiconsIcon
                                   icon={sub.icon}
-                                  className="size-[15px] shrink-0"
+                                  className="size-3.75 shrink-0"
                                   strokeWidth={isActive ? 2.5 : 2}
                                   color={isActive ? '#C2410C' : '#94A3B8'}
                                 />
@@ -108,7 +107,6 @@ export function NavMain({ items }: NavMainProps) {
               </SidebarMenuItem>
             </Collapsible>
           ) : (
-            // ── Standalone item ────────────────────────────────────────────
             (() => {
               const isActive = pathname === item.url
               return (
