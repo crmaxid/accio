@@ -1,3 +1,14 @@
+import { DateTime } from 'luxon'
+
+export const formatDateTime = (iso: string | undefined | null) => {
+  if (!iso) return { date: '—', time: '' }
+  const dt = DateTime.fromISO(iso, { zone: 'utc' }).toLocal()
+  return {
+    date: dt.toFormat('dd MMM yyyy'),
+    time: dt.toFormat('HH:mm ZZZZ'),
+  }
+}
+
 export const getInitials = (name: string) => {
   return name
     .split(' ')
@@ -5,4 +16,11 @@ export const getInitials = (name: string) => {
     .slice(0, 2)
     .join('')
     .toUpperCase()
+}
+
+export const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+  }).format(value)
 }
