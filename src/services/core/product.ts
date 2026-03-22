@@ -7,17 +7,17 @@ const PRODUCT_QUERY_KEY = 'product'
 export const useProduct = ({
   page,
   limit,
-  name,
+  search,
 }: {
   page: number
   limit: number
-  name?: string
+  search?: string
 }) => {
   const getProductList = useQuery({
-    queryKey: [`${PRODUCT_QUERY_KEY}`, page, limit, name],
+    queryKey: [`${PRODUCT_QUERY_KEY}`, page, limit, search],
     queryFn: async () =>
       await core
-        .get<ProductList>('/v1/product', { params: { page, limit, name } })
+        .get<ProductList>('/v1/product', { params: { page, limit, search } })
         .then((res) => res.data),
   })
 

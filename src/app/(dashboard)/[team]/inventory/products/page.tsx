@@ -11,7 +11,7 @@ export default function ProductPage() {
 
   const { page, limit, setPage } = usePagination()
   const { columns, search, searchConfig } = useProductTable()
-  const { getProductList } = useProduct({ page, limit, name: search })
+  const { getProductList } = useProduct({ page, limit, search })
   const { data, isLoading } = getProductList
 
   return (
