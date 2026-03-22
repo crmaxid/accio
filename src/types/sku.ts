@@ -1,5 +1,11 @@
 import { BaseReponse, PaginationReponse } from './base'
 
+export interface Bundle {
+  id: string
+  code: string
+  createdAt: string
+}
+
 export interface Sku {
   createdAt: string
   id: string
@@ -38,6 +44,8 @@ export interface StockTransaction {
     name: string
   }
 }
+
+export type BundleList = BaseReponse<PaginationReponse<Bundle>>
 
 export type StockTransactionList = BaseReponse<
   PaginationReponse<StockTransaction>

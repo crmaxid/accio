@@ -1,14 +1,17 @@
 import { core } from '@/lib'
+import { BundleList } from '@/types'
 import { SkuList, StockTransactionList } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 
 const SKU_QUERY_KEY = 'sku'
+const BUNDLE_QUERY_KEY = 'bundle'
 
 interface SkuParams {
   page: number
   limit: number
   code?: string
   productName?: string
+  search?: string
   startDate?: string
   endDate?: string
 }
@@ -18,6 +21,7 @@ export const useSku = ({
   limit,
   code,
   productName,
+  search,
   startDate,
   endDate,
 }: SkuParams) => {
@@ -26,6 +30,14 @@ export const useSku = ({
     queryFn: async () =>
       await core
         .get<SkuList>('/v1/sku', { params: { page, limit, code, productName } })
+        .then((res) => res.data),
+  })
+
+  const getBundleList = useQuery({
+    queryKey: [BUNDLE_QUERY_KEY, page, limit, search],
+    queryFn: async () =>
+      await core
+        .get<BundleList>('/v1/sku/group', { params: { page, limit, search } })
         .then((res) => res.data),
   })
 
@@ -48,5 +60,6 @@ export const useSku = ({
   return {
     getSkuList,
     getStockTransaction,
+    getBundleList,
   }
 }
