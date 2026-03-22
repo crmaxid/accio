@@ -1,3 +1,5 @@
+import { PaginatedResponse } from './base'
+
 export interface Customer {
   createdAt: string
   id: string
@@ -8,3 +10,5 @@ export interface Customer {
     fullAddress: string
   }
 }
+
+export type CustomerList = PaginatedResponse<Customer>
