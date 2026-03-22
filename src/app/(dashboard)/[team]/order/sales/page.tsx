@@ -1,6 +1,5 @@
 'use client'
 
-import { format } from 'date-fns'
 import DataTable from '@/components/data-table/table'
 import { usePageTitle } from '@/hooks/use-page-title'
 import { usePagination } from '@/hooks/use-pagination'
@@ -15,16 +14,12 @@ export default function SalesPage() {
     columns,
     search,
     source,
-    dateRange,
+    startDate,
+    endDate,
     searchConfig,
     filterConfigs,
     dateRangeConfig,
   } = useSalesTable()
-
-  const startDate = dateRange?.from
-    ? format(dateRange.from, 'yyyy-MM-dd')
-    : undefined
-  const endDate = dateRange?.to ? format(dateRange.to, 'yyyy-MM-dd') : undefined
 
   const { getOrderList } = useSales({
     page,

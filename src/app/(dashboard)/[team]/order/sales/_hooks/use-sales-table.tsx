@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Order } from '@/types'
+import { formatDateParam } from '@/lib/utils/format'
 import { ColumnDef } from '@tanstack/react-table'
 import type { DateRange } from 'react-day-picker'
 import {
@@ -77,11 +78,15 @@ export const useSalesTable = () => {
     onChange: setDateRange,
   }
 
+  const startDate = formatDateParam(dateRange?.from)
+  const endDate = formatDateParam(dateRange?.to)
+
   return {
     columns,
     search,
     source,
-    dateRange,
+    startDate,
+    endDate,
     searchConfig,
     filterConfigs,
     dateRangeConfig,

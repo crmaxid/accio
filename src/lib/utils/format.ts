@@ -24,3 +24,8 @@ export const formatCurrency = (value: number) => {
     currency: 'IDR',
   }).format(value)
 }
+
+export const formatDateParam = (date: Date | undefined): string | undefined => {
+  if (!date) return undefined
+  return DateTime.fromJSDate(date).toFormat('yyyy-MM-dd')
+}
