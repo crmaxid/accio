@@ -1,4 +1,4 @@
-import { BaseReponse, PaginationReponse } from './base'
+import { PaginatedResponse } from './base'
 
 export interface OrderCustomer {
   id: string
@@ -59,4 +59,4 @@ export interface Order {
   payment: OrderPayment
 }
 
-export type OrderList = BaseReponse<PaginationReponse<Order>>
+export type OrderList = PaginatedResponse<Order>

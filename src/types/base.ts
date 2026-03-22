@@ -1,5 +1,6 @@
 export interface BaseReponse<T> {
   success: boolean
+  message: string
   data: T
 }
 
@@ -10,10 +11,9 @@ export interface PaginationMeta {
   totalPages: number
 }
 
-export interface PaginationReponse<T> {
-  success: boolean
+export interface BasePaginationReponse<T> {
   data: T[]
   meta: PaginationMeta
 }
 
-export type BasePaginatedResponse<T> = BaseReponse<PaginationReponse<T>>
+export type PaginatedResponse<T> = BaseReponse<BasePaginationReponse<T>>

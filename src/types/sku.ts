@@ -1,4 +1,4 @@
-import { BaseReponse, PaginationReponse } from './base'
+import { PaginatedResponse } from './base'
 
 export interface Bundle {
   id: string
@@ -45,10 +45,6 @@ export interface StockTransaction {
   }
 }
 
-export type BundleList = BaseReponse<PaginationReponse<Bundle>>
-
-export type StockTransactionList = BaseReponse<
-  PaginationReponse<StockTransaction>
->
-
-export type SkuList = BaseReponse<PaginationReponse<Sku>>
+export type BundleList = PaginatedResponse<Bundle>
+export type StockTransactionList = PaginatedResponse<StockTransaction>
+export type SkuList = PaginatedResponse<Sku>

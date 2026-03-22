@@ -1,4 +1,4 @@
-import { BaseReponse, PaginationReponse } from './base'
+import { PaginatedResponse } from './base'
 
 export interface Product {
   createdAt: string
@@ -21,4 +21,4 @@ export interface Product {
   }
 }
 
-export type ProductList = BaseReponse<PaginationReponse<Product>>
+export type ProductList = PaginatedResponse<Product>
