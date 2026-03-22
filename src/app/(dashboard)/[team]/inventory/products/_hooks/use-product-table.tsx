@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { Product } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { formatCurrency, getInitials } from '@/lib/utils/format'
 import { DateCell, StockBadge, UomBadge } from '@/components/common'
+import { SearchConfig } from '@/components/data-table/table'
 
 export const useProductTable = () => {
+  const [search, setSearch] = useState('')
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: 'name',
@@ -62,5 +65,11 @@ export const useProductTable = () => {
     },
   ]
 
-  return { columns }
+  const searchConfig: SearchConfig = {
+    value: search,
+    onChange: setSearch,
+    placeholder: 'Search product name...',
+  }
+
+  return { columns, search, searchConfig }
 }

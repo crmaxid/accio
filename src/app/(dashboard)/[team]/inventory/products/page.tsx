@@ -10,8 +10,8 @@ export default function ProductPage() {
   usePageTitle('Products')
 
   const { page, limit, setPage } = usePagination()
-  const { getProductList } = useProduct({ page, limit })
-  const { columns } = useProductTable()
+  const { columns, search, searchConfig } = useProductTable()
+  const { getProductList } = useProduct({ page, limit, name: search })
   const { data, isLoading } = getProductList
 
   return (
@@ -22,6 +22,7 @@ export default function ProductPage() {
         columns={columns}
         onPageChange={setPage}
         isLoading={isLoading}
+        search={searchConfig}
       />
     </main>
   )
