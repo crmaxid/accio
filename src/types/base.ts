@@ -1,3 +1,17 @@
+export interface GenericAddress {
+  fullAddress: string
+  line1: string
+  line2?: string | null
+  postalCode?: string | null
+  subDistrict?: string
+  village?: string | null
+  city: string
+  province?: string
+  country: string
+  latitude: number
+  longitude: number
+}
+
 export interface BaseReponse<T> {
   success: boolean
   message: string
