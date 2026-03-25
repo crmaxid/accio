@@ -26,6 +26,9 @@ import {
   Calendar01Icon,
   Cancel01Icon,
   FilterIcon,
+  Add01Icon,
+  Edit02Icon,
+  FileExportIcon,
 } from '@hugeicons/core-free-icons'
 import { Input } from '../ui/input'
 import {
@@ -70,6 +73,17 @@ export interface DateRangeConfig {
   onChange: (range: DateRange | undefined) => void
 }
 
+export interface TableButtonConfig {
+  label?: string
+  onClick: () => void
+}
+
+export interface TableButtonsConfig {
+  create?: TableButtonConfig
+  update?: TableButtonConfig
+  export?: TableButtonConfig
+}
+
 interface DataTableProps<T> {
   columns: ColumnDef<T>[]
   data?: T[]
@@ -79,6 +93,7 @@ interface DataTableProps<T> {
   search?: SearchConfig
   filters?: FilterConfig[]
   dateRange?: DateRangeConfig
+  buttons?: TableButtonsConfig
   actions?: React.ReactNode
 }
 
@@ -91,6 +106,7 @@ export default function DataTable<T>({
   search,
   filters,
   dateRange,
+  buttons,
   actions,
 }: DataTableProps<T>) {
   const [searchInput, setSearchInput] = useState(search?.value ?? '')
@@ -115,7 +131,7 @@ export default function DataTable<T>({
 
   const canPrev = meta.page > 1
   const canNext = meta.page < meta.totalPages
-  const hasToolbar = search || filters?.length || dateRange || actions
+  const hasToolbar = search || filters?.length || dateRange || buttons || actions
 
   return (
     <div className="flex flex-col gap-3">
@@ -240,7 +256,43 @@ export default function DataTable<T>({
               </div>
             )}
           </div>
-          {actions && <div className="flex items-center gap-2">{actions}</div>}
+          {(buttons || actions) && (
+            <div className="flex items-center gap-2">
+              {buttons?.export && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={buttons.export.onClick}
+                  className="h-8 gap-1.5 rounded-full border-gray-200 px-3 text-xs font-medium text-gray-500 shadow-none hover:border-gray-300 hover:text-gray-700"
+                >
+                  <HugeiconsIcon icon={FileExportIcon} size={12} strokeWidth={2} />
+                  {buttons.export.label ?? 'Export'}
+                </Button>
+              )}
+              {buttons?.update && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={buttons.update.onClick}
+                  className="h-8 gap-1.5 rounded-full border-gray-200 px-3 text-xs font-medium text-gray-500 shadow-none hover:border-gray-300 hover:text-gray-700"
+                >
+                  <HugeiconsIcon icon={Edit02Icon} size={12} strokeWidth={2} />
+                  {buttons.update.label ?? 'Update'}
+                </Button>
+              )}
+              {buttons?.create && (
+                <Button
+                  size="sm"
+                  onClick={buttons.create.onClick}
+                  className="h-8 gap-1.5 rounded-full px-3 text-xs font-medium shadow-none"
+                >
+                  <HugeiconsIcon icon={Add01Icon} size={12} strokeWidth={2} />
+                  {buttons.create.label ?? 'Create'}
+                </Button>
+              )}
+              {actions}
+            </div>
+          )}
         </div>
       )}
 
