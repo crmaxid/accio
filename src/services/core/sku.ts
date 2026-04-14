@@ -67,9 +67,7 @@ export const useSku = ({
 
   const createSku = useMutation({
     mutationFn: (payload: CreateSkuPayload) =>
-      core
-        .post<CreateSkuResponse>('/v1/sku', payload)
-        .then((res) => res.data),
+      core.post<CreateSkuResponse>('/v1/sku', payload).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [SKU_QUERY_KEY] })
     },
@@ -87,9 +85,7 @@ export const useSku = ({
 
   const deleteSku = useMutation({
     mutationFn: (id: string) =>
-      core
-        .delete<DeleteSkuResponse>(`/v1/sku/${id}`)
-        .then((res) => res.data),
+      core.delete<DeleteSkuResponse>(`/v1/sku/${id}`).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [SKU_QUERY_KEY] })
     },

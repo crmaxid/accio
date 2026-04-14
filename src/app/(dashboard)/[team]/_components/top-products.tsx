@@ -41,20 +41,26 @@ export function TopProducts({ data, isLoading, period }: TopProductsProps) {
             {data.map((product, index) => (
               <div
                 key={product.productId}
-                className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:bg-muted/50"
+                className="hover:bg-muted/50 flex items-center gap-3 rounded-md px-2 py-1.5"
               >
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
+                <span className="bg-muted text-muted-foreground flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold">
                   {index + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-xs font-medium">{product.productName}</p>
+                  <p className="truncate text-xs font-medium">
+                    {product.productName}
+                  </p>
                   {product.mainSkuCode && (
-                    <p className="text-[11px] text-muted-foreground">{product.mainSkuCode}</p>
+                    <p className="text-muted-foreground text-[11px]">
+                      {product.mainSkuCode}
+                    </p>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-medium tabular-nums">{product.totalSold} sold</p>
-                  <p className="text-[11px] text-muted-foreground tabular-nums">
+                  <p className="text-xs font-medium tabular-nums">
+                    {product.totalSold} sold
+                  </p>
+                  <p className="text-muted-foreground text-[11px] tabular-nums">
                     {formatCurrency(product.totalRevenue)}
                   </p>
                 </div>

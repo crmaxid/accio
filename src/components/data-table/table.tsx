@@ -131,7 +131,8 @@ export default function DataTable<T>({
 
   const canPrev = meta.page > 1
   const canNext = meta.page < meta.totalPages
-  const hasToolbar = search || filters?.length || dateRange || buttons || actions
+  const hasToolbar =
+    search || filters?.length || dateRange || buttons || actions
 
   return (
     <div className="flex flex-col gap-3">
@@ -265,7 +266,11 @@ export default function DataTable<T>({
                   onClick={buttons.export.onClick}
                   className="h-8 gap-1.5 rounded-full border-gray-200 px-3 text-xs font-medium text-gray-500 shadow-none hover:border-gray-300 hover:text-gray-700"
                 >
-                  <HugeiconsIcon icon={FileExportIcon} size={12} strokeWidth={2} />
+                  <HugeiconsIcon
+                    icon={FileExportIcon}
+                    size={12}
+                    strokeWidth={2}
+                  />
                   {buttons.export.label ?? 'Export'}
                 </Button>
               )}

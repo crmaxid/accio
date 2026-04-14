@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import {
   Card,
   CardContent,
@@ -50,12 +44,28 @@ export function SalesTrendChart({ data, isLoading }: SalesTrendChartProps) {
             <AreaChart data={data.data} margin={{ left: -16, right: 4 }}>
               <defs>
                 <linearGradient id="fillOnline" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-online)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="var(--color-online)" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-online)"
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--color-online)"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
                 <linearGradient id="fillOffline" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-offline)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="var(--color-offline)" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-offline)"
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--color-offline)"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} strokeDasharray="3 3" />

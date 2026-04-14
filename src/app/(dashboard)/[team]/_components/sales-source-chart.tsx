@@ -25,8 +25,7 @@ const PLATFORM_COLORS: Record<string, string> = {
   crmax: 'hsl(221 83% 53%)',
 }
 
-const getFallbackColor = (index: number) =>
-  `hsl(${(index * 67) % 360} 70% 50%)`
+const getFallbackColor = (index: number) => `hsl(${(index * 67) % 360} 70% 50%)`
 
 interface SalesSourceChartProps {
   data?: OrderDistribution
@@ -39,7 +38,8 @@ export function SalesSourceChart({ data, isLoading }: SalesSourceChartProps) {
       item.platform,
       {
         label: item.platform.charAt(0).toUpperCase() + item.platform.slice(1),
-        color: PLATFORM_COLORS[item.platform.toLowerCase()] ?? getFallbackColor(i),
+        color:
+          PLATFORM_COLORS[item.platform.toLowerCase()] ?? getFallbackColor(i),
       },
     ]),
   )
@@ -76,8 +76,12 @@ export function SalesSourceChart({ data, isLoading }: SalesSourceChartProps) {
                   />
                 ))}
               </Pie>
-              <ChartTooltip content={<ChartTooltipContent nameKey="platform" hideLabel />} />
-              <ChartLegend content={<ChartLegendContent nameKey="platform" />} />
+              <ChartTooltip
+                content={<ChartTooltipContent nameKey="platform" hideLabel />}
+              />
+              <ChartLegend
+                content={<ChartLegendContent nameKey="platform" />}
+              />
             </PieChart>
           </ChartContainer>
         )}
