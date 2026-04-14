@@ -1,4 +1,4 @@
-import { PaginatedResponse } from './base'
+import { BaseReponse, PaginatedResponse } from './base'
 
 export interface Product {
   createdAt: string
@@ -21,4 +21,16 @@ export interface Product {
   }
 }
 
+export interface ProductSelection {
+  id: string
+  name: string
+  restockDelivery: {
+    id: string
+    containerType: string
+    containerCapacity: number
+    uom: string
+  }
+}
+
 export type ProductList = PaginatedResponse<Product>
+export type ProductSelectionList = BaseReponse<ProductSelection[]>
