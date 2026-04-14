@@ -51,16 +51,25 @@ export function StatCard({
       <CardHeader>
         <CardDescription className="flex items-center justify-between">
           {title}
-          <HugeiconsIcon icon={icon} strokeWidth={1.5} className="size-4 text-muted-foreground" />
+          <HugeiconsIcon
+            icon={icon}
+            strokeWidth={1.5}
+            className="text-muted-foreground size-4"
+          />
         </CardDescription>
-        <CardTitle className="text-xl font-semibold tabular-nums">{value}</CardTitle>
+        <CardTitle className="text-xl font-semibold tabular-nums">
+          {value}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-1">
           <HugeiconsIcon
             icon={isPositive ? AnalyticsUpIcon : AnalyticsDownIcon}
             strokeWidth={2}
-            className={cn('size-3.5', isPositive ? 'text-emerald-500' : 'text-red-500')}
+            className={cn(
+              'size-3.5',
+              isPositive ? 'text-emerald-500' : 'text-red-500',
+            )}
           />
           <span
             className={cn(
@@ -71,7 +80,7 @@ export function StatCard({
             {isPositive ? '+' : ''}
             {change.toFixed(1)}%
           </span>
-          <span className="text-xs text-muted-foreground">{description}</span>
+          <span className="text-muted-foreground text-xs">{description}</span>
         </div>
       </CardContent>
     </Card>

@@ -27,7 +27,11 @@ interface ProductSalesChartProps {
   period: string
 }
 
-export function ProductSalesChart({ data, isLoading, period }: ProductSalesChartProps) {
+export function ProductSalesChart({
+  data,
+  isLoading,
+  period,
+}: ProductSalesChartProps) {
   const chartData = [...(data ?? [])]
     .sort((a, b) => b.totalSold - a.totalSold)
     .slice(0, 10)
@@ -64,7 +68,12 @@ export function ProductSalesChart({ data, isLoading, period }: ProductSalesChart
                 width={110}
                 tick={{ fontSize: 11 }}
               />
-              <XAxis type="number" tickLine={false} axisLine={false} tickMargin={8} />
+              <XAxis
+                type="number"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
               <ChartTooltip
                 content={
                   <ChartTooltipContent

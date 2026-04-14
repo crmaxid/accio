@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --text-xs: 0.875rem;    /* 14px  (was 12px) */
-  --text-sm: 1rem;        /* 16px  (was 14px) */
-  --text-base: 1.125rem;  /* 18px  (was 16px) */
-  --text-lg: 1.25rem;     /* 20px  (was 18px) */
-  --text-xl: 1.375rem;    /* 22px  (was 20px) */
+  --text-xs: 0.875rem; /* 14px  (was 12px) */
+  --text-sm: 1rem; /* 16px  (was 14px) */
+  --text-base: 1.125rem; /* 18px  (was 16px) */
+  --text-lg: 1.25rem; /* 20px  (was 18px) */
+  --text-xl: 1.375rem; /* 22px  (was 20px) */
 }
 
 @theme inline {
@@ -85,7 +85,7 @@
   --sidebar-primary: oklch(0.59 0.19 40.5);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.984 0.014 75);
-  --sidebar-accent-foreground: oklch(0.50 0.175 40.5);
+  --sidebar-accent-foreground: oklch(0.5 0.175 40.5);
   --sidebar-border: oklch(0.947 0 0);
   --sidebar-ring: oklch(0.59 0.19 40.5);
 }

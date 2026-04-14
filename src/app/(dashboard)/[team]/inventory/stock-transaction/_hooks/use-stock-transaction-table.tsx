@@ -34,7 +34,9 @@ export const useStockTransactionTable = () => {
       cell: ({ row }) => {
         const isMinus = MINUS_TYPES.has(row.original.type)
         return (
-          <span className={`font-semibold ${isMinus ? 'text-red-500' : 'text-emerald-600'}`}>
+          <span
+            className={`font-semibold ${isMinus ? 'text-red-500' : 'text-emerald-600'}`}
+          >
             {isMinus ? '− ' : '+ '}
             {row.original.quantity}
           </span>
@@ -52,13 +54,19 @@ export const useStockTransactionTable = () => {
     {
       accessorKey: 'type',
       header: 'Type',
-      cell: ({ row }) => <StockTransactionTypeBadge value={row.original.type} />,
+      cell: ({ row }) => (
+        <StockTransactionTypeBadge value={row.original.type} />
+      ),
     },
     {
       id: 'createdBy',
       header: 'Created By',
       cell: ({ row }) => (
-        <span>{row.original.createdBy?.name ?? <span className="text-gray-400">System</span>}</span>
+        <span>
+          {row.original.createdBy?.name ?? (
+            <span className="text-gray-400">System</span>
+          )}
+        </span>
       ),
     },
     {

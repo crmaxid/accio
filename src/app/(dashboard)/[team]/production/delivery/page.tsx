@@ -10,8 +10,14 @@ export default function DeliveryPage() {
   usePageTitle('Deliveries')
 
   const { page, limit, setPage } = usePagination()
-  const { columns, search, statusFilter, searchConfig, statusParam } = useDeliveryTable()
-  const { getAllDelivery } = useDelivery({ page, limit, search, status: statusParam })
+  const { columns, search, statusFilter, searchConfig, statusParam } =
+    useDeliveryTable()
+  const { getAllDelivery } = useDelivery({
+    page,
+    limit,
+    search,
+    status: statusParam,
+  })
   const { data, isLoading } = getAllDelivery
 
   return (

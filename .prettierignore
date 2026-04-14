@@ -4,3 +4,4 @@ out
 build
 public
 bun.lock
+/src/components/ui

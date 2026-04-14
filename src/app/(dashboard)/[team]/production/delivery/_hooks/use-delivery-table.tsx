@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { CreatedByCell, DateCell, DeliveryStatusBadge } from '@/components/common'
+import {
+  CreatedByCell,
+  DateCell,
+  DeliveryStatusBadge,
+} from '@/components/common'
 import { FilterConfig, SearchConfig } from '@/components/data-table/table'
 import { Delivery } from '@/types'
 
