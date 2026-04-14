@@ -1,5 +1,12 @@
 import { core } from '@/lib'
-import { BundleList, CreateSkuPayload, CreateSkuResponse } from '@/types'
+import {
+  BundleList,
+  CreateSkuPayload,
+  CreateSkuResponse,
+  DeleteSkuResponse,
+  UpdateSkuPayload,
+  UpdateSkuResponse,
+} from '@/types'
 import { SkuList, StockTransactionList } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -68,10 +75,32 @@ export const useSku = ({
     },
   })
 
+  const updateSku = useMutation({
+    mutationFn: ({ id, ...payload }: { id: string } & UpdateSkuPayload) =>
+      core
+        .patch<UpdateSkuResponse>(`/v1/sku/${id}`, payload)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [SKU_QUERY_KEY] })
+    },
+  })
+
+  const deleteSku = useMutation({
+    mutationFn: (id: string) =>
+      core
+        .delete<DeleteSkuResponse>(`/v1/sku/${id}`)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [SKU_QUERY_KEY] })
+    },
+  })
+
   return {
     getSkuList,
     getStockTransaction,
     getBundleList,
     createSku,
+    updateSku,
+    deleteSku,
   }
 }

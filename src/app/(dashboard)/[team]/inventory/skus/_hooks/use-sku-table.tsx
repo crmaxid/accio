@@ -6,9 +6,37 @@ import { UomBadge } from '@/components/common/uom-badge'
 import { DateCell } from '@/components/common/date-cell'
 import { SearchConfig } from '@/components/data-table/table'
 import { Sku } from '@/types'
+import { Button } from '@/components/ui/button'
+import { HugeiconsIcon } from '@hugeicons/react'
+import {
+  MoreVerticalIcon,
+  PencilEdit01Icon,
+  Delete02Icon,
+} from '@hugeicons/core-free-icons'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export const useSkuTable = () => {
   const [search, setSearch] = useState('')
+  const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
+  const [updateOpen, setUpdateOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
+  const handleEdit = (sku: Sku) => {
+    setSelectedSku(sku)
+    setUpdateOpen(true)
+  }
+
+  const handleDelete = (sku: Sku) => {
+    setSelectedSku(sku)
+    setDeleteOpen(true)
+  }
+
   const columns: ColumnDef<Sku>[] = [
     {
       id: 'product',
@@ -69,6 +97,45 @@ export const useSkuTable = () => {
       header: 'Created At',
       cell: ({ row }) => <DateCell iso={row.original.createdAt} />,
     },
+    {
+      id: 'actions',
+      header: '',
+      cell: ({ row }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-gray-400 hover:text-gray-700"
+            >
+              <HugeiconsIcon
+                icon={MoreVerticalIcon}
+                size={14}
+                strokeWidth={2}
+              />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuItem onClick={() => handleEdit(row.original)}>
+              <HugeiconsIcon
+                icon={PencilEdit01Icon}
+                size={13}
+                strokeWidth={2}
+              />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-red-600 focus:text-red-600"
+              onClick={() => handleDelete(row.original)}
+            >
+              <HugeiconsIcon icon={Delete02Icon} size={13} strokeWidth={2} />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
   ]
 
   const searchConfig: SearchConfig = {
@@ -77,5 +144,14 @@ export const useSkuTable = () => {
     placeholder: 'Search SKU code...',
   }
 
-  return { columns, search, searchConfig }
+  return {
+    columns,
+    search,
+    searchConfig,
+    selectedSku,
+    updateOpen,
+    setUpdateOpen,
+    deleteOpen,
+    setDeleteOpen,
+  }
 }
