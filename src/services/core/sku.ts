@@ -1,7 +1,7 @@
 import { core } from '@/lib'
-import { BundleList } from '@/types'
+import { BundleList, CreateSkuPayload, CreateSkuResponse } from '@/types'
 import { SkuList, StockTransactionList } from '@/types'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const SKU_QUERY_KEY = 'sku'
 const BUNDLE_QUERY_KEY = 'bundle'
@@ -25,6 +25,7 @@ export const useSku = ({
   startDate,
   endDate,
 }: SkuParams) => {
+  const queryClient = useQueryClient()
   const getSkuList = useQuery({
     queryKey: [SKU_QUERY_KEY, page, limit, code, productName],
     queryFn: async () =>
@@ -57,9 +58,20 @@ export const useSku = ({
         .then((res) => res.data),
   })
 
+  const createSku = useMutation({
+    mutationFn: (payload: CreateSkuPayload) =>
+      core
+        .post<CreateSkuResponse>('/v1/sku', payload)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [SKU_QUERY_KEY] })
+    },
+  })
+
   return {
     getSkuList,
     getStockTransaction,
     getBundleList,
+    createSku,
   }
 }

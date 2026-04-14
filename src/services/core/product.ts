@@ -1,5 +1,5 @@
 import { core } from '@/lib'
-import { ProductList } from '@/types'
+import { ProductList, ProductSelectionList } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 
 const PRODUCT_QUERY_KEY = 'product'
@@ -9,8 +9,8 @@ export const useProduct = ({
   limit,
   search,
 }: {
-  page: number
-  limit: number
+  page?: number
+  limit?: number
   search?: string
 }) => {
   const getProductList = useQuery({
@@ -21,7 +21,16 @@ export const useProduct = ({
         .then((res) => res.data),
   })
 
+  const getProductSelection = useQuery({
+    queryKey: [`${PRODUCT_QUERY_KEY}-selection`],
+    queryFn: async () =>
+      await core
+        .get<ProductSelectionList>('/v1/product/selection')
+        .then((res) => res.data),
+  })
+
   return {
     getProductList,
+    getProductSelection,
   }
 }

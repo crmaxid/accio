@@ -1,4 +1,4 @@
-import { PaginatedResponse } from './base'
+import { BaseReponse, PaginatedResponse } from './base'
 
 export interface Bundle {
   id: string
@@ -44,6 +44,19 @@ export interface StockTransaction {
     name: string
   }
 }
+
+export interface CreateSkuPayload {
+  code: string
+  productId: string
+  uom: string
+  unitCount: number
+  salePrice: number
+  resellerPrice: number
+  specialPrice: number
+  mainSku: boolean
+}
+
+export type CreateSkuResponse = BaseReponse<{ message: string }>
 
 export type BundleList = PaginatedResponse<Bundle>
 export type StockTransactionList = PaginatedResponse<StockTransaction>
