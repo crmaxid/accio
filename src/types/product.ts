@@ -32,5 +32,27 @@ export interface ProductSelection {
   }
 }
 
+export interface ProductRestockDelivery {
+  id: string
+  containerType: string
+  containerCapacity: number
+  uom: string
+  createdAt: string
+}
+
+export interface CreateProductPayload {
+  name: string
+  productionPrice: number
+  productRestockDeliveryId: string
+}
+
+export interface UpdateProductPayload {
+  name: string
+}
+
 export type ProductList = PaginatedResponse<Product>
 export type ProductSelectionList = BaseReponse<ProductSelection[]>
+export type ProductRestockDeliveryList = BaseReponse<ProductRestockDelivery[]>
+export type CreateProductResponse = BaseReponse<{ message: string }>
+export type UpdateProductResponse = BaseReponse<{ message: string }>
+export type DeleteProductResponse = BaseReponse<{ message: string }>

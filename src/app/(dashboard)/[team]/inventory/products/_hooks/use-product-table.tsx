@@ -5,9 +5,37 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { formatCurrency, getInitials } from '@/lib/utils/format'
 import { DateCell, StockBadge, UomBadge } from '@/components/common'
 import { SearchConfig } from '@/components/data-table/table'
+import { Button } from '@/components/ui/button'
+import { HugeiconsIcon } from '@hugeicons/react'
+import {
+  Delete02Icon,
+  MoreVerticalIcon,
+  PencilEdit01Icon,
+} from '@hugeicons/core-free-icons'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export const useProductTable = () => {
   const [search, setSearch] = useState('')
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [updateOpen, setUpdateOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
+  const handleEdit = (product: Product) => {
+    setSelectedProduct(product)
+    setUpdateOpen(true)
+  }
+
+  const handleDelete = (product: Product) => {
+    setSelectedProduct(product)
+    setDeleteOpen(true)
+  }
+
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: 'name',
@@ -63,6 +91,45 @@ export const useProductTable = () => {
         return <DateCell iso={updatedAt} />
       },
     },
+    {
+      id: 'actions',
+      header: '',
+      cell: ({ row }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-gray-400 hover:text-gray-700"
+            >
+              <HugeiconsIcon
+                icon={MoreVerticalIcon}
+                size={14}
+                strokeWidth={2}
+              />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuItem onClick={() => handleEdit(row.original)}>
+              <HugeiconsIcon
+                icon={PencilEdit01Icon}
+                size={13}
+                strokeWidth={2}
+              />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-red-600 focus:text-red-600"
+              onClick={() => handleDelete(row.original)}
+            >
+              <HugeiconsIcon icon={Delete02Icon} size={13} strokeWidth={2} />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
   ]
 
   const searchConfig: SearchConfig = {
@@ -71,5 +138,14 @@ export const useProductTable = () => {
     placeholder: 'Search product name...',
   }
 
-  return { columns, search, searchConfig }
+  return {
+    columns,
+    search,
+    searchConfig,
+    selectedProduct,
+    updateOpen,
+    setUpdateOpen,
+    deleteOpen,
+    setDeleteOpen,
+  }
 }
