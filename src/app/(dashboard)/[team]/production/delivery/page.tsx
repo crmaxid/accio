@@ -1,17 +1,22 @@
 'use client'
 
+import { useState } from 'react'
 import DataTable from '@/components/data-table/table'
 import { usePageTitle } from '@/hooks/use-page-title'
 import { usePagination } from '@/hooks/use-pagination'
 import { useDelivery } from '@/services/core/delivery'
 import { useDeliveryTable } from './_hooks/use-delivery-table'
+import CreateDelivery from './_components/create-delivery'
 
 export default function DeliveryPage() {
   usePageTitle('Deliveries')
 
+  const [createOpen, setCreateOpen] = useState(false)
   const { page, limit, setPage } = usePagination()
+
   const { columns, search, statusFilter, searchConfig, statusParam } =
     useDeliveryTable()
+
   const { getAllDelivery } = useDelivery({
     page,
     limit,
@@ -30,7 +35,11 @@ export default function DeliveryPage() {
         isLoading={isLoading}
         search={searchConfig}
         filters={[statusFilter]}
+        buttons={{
+          create: { onClick: () => setCreateOpen(true) },
+        }}
       />
+      <CreateDelivery open={createOpen} onOpenChange={setCreateOpen} />
     </main>
   )
 }

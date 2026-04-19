@@ -1,4 +1,4 @@
-import { PaginatedResponse } from './base'
+import { BaseReponse, PaginatedResponse } from './base'
 
 export interface Delivery {
   id: string
@@ -14,4 +14,17 @@ export interface Delivery {
   } | null
 }
 
+export interface CreateDeliveryItemPayload {
+  stockReplenishmentProductId: string
+  quantity: number
+}
+
+export interface CreateDeliveryPayload {
+  deliveryDate: string
+  items: CreateDeliveryItemPayload[]
+  notes?: string
+  enableNotification?: boolean
+}
+
 export type DeliveryList = PaginatedResponse<Delivery>
+export type CreateDeliveryResponse = BaseReponse<{ message: string }>

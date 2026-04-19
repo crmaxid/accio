@@ -1,6 +1,10 @@
 import { core } from '@/lib'
-import { DeliveryList } from '@/types'
-import { useQuery } from '@tanstack/react-query'
+import {
+  CreateDeliveryPayload,
+  CreateDeliveryResponse,
+  DeliveryList,
+} from '@/types'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const DELIVERY_QUERY_KEY = 'delivery'
 
@@ -17,6 +21,8 @@ export const useDelivery = ({
   search,
   status,
 }: DeliveryParams) => {
+  const queryClient = useQueryClient()
+
   const getAllDelivery = useQuery({
     queryKey: [DELIVERY_QUERY_KEY, page, limit, search, status],
     queryFn: async () =>
@@ -26,7 +32,25 @@ export const useDelivery = ({
         })
         .then((res) => res.data),
   })
+
+  const createDelivery = useMutation({
+    mutationFn: ({
+      restockId,
+      ...payload
+    }: { restockId: string } & CreateDeliveryPayload) =>
+      core
+        .post<CreateDeliveryResponse>(
+          `/v1/stock-replenishment/${restockId}/delivery`,
+          payload,
+        )
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [DELIVERY_QUERY_KEY] })
+    },
+  })
+
   return {
     getAllDelivery,
+    createDelivery,
   }
 }

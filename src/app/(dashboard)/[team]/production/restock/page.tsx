@@ -1,14 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import DataTable from '@/components/data-table/table'
 import { usePageTitle } from '@/hooks/use-page-title'
 import { usePagination } from '@/hooks/use-pagination'
 import { useRestock } from '@/services/core/restock'
 import { useRestockTable } from './_hooks/use-restock-table'
+import CreateRestock from './_components/create-restock'
 
 export default function RestockPage() {
   usePageTitle('Restocks')
 
+  const [createOpen, setCreateOpen] = useState(false)
   const { page, limit, setPage } = usePagination()
   const {
     columns,
@@ -39,7 +42,11 @@ export default function RestockPage() {
         isLoading={isLoading}
         search={searchConfig}
         filters={[paymentFilter, deliveryFilter]}
+        buttons={{
+          create: { onClick: () => setCreateOpen(true) },
+        }}
       />
+      <CreateRestock open={createOpen} onOpenChange={setCreateOpen} />
     </main>
   )
 }
