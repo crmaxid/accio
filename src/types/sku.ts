@@ -66,6 +66,18 @@ export interface CreateSkuPayload {
 
 export type CreateSkuResponse = BaseReponse<{ message: string }>
 
+export interface SkuOrderSelection {
+  id: string
+  code: string
+  createdAt: string
+  product: { id: string; name: string }
+}
+
+export interface CreateBundlePayload {
+  code: string
+  skuGroupItems: { skuId: string; quantity: number }[]
+}
+
 export interface SkuStockSelection {
   id: string
   code: string
@@ -81,7 +93,9 @@ export interface StockAdjustmentPayload {
 export type BundleList = PaginatedResponse<Bundle>
 export type StockTransactionList = PaginatedResponse<StockTransaction>
 export type SkuList = PaginatedResponse<Sku>
+export type SkuOrderSelectionList = BaseReponse<SkuOrderSelection[]>
 export type SkuStockSelectionList = BaseReponse<SkuStockSelection[]>
+export type CreateBundleResponse = BaseReponse<{ message: string }>
 export type UpdateSkuResponse = BaseReponse<{ message: string }>
 export type DeleteSkuResponse = BaseReponse<{ message: string }>
 export type StockAdjustmentResponse = BaseReponse<{ message: string }>
