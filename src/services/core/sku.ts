@@ -1,9 +1,12 @@
 import { core } from '@/lib'
 import {
   BundleList,
+  CreateBundlePayload,
+  CreateBundleResponse,
   CreateSkuPayload,
   CreateSkuResponse,
   DeleteSkuResponse,
+  SkuOrderSelectionList,
   SkuStockSelectionList,
   StockAdjustmentPayload,
   StockAdjustmentResponse,
@@ -117,14 +120,34 @@ export const useSku = ({
     },
   })
 
+  const getSkuOrderSelection = useQuery({
+    queryKey: [`${SKU_QUERY_KEY}-order-selection`],
+    queryFn: async () =>
+      await core
+        .get<SkuOrderSelectionList>('/v1/sku/order/selection')
+        .then((res) => res.data),
+  })
+
+  const createBundle = useMutation({
+    mutationFn: (payload: CreateBundlePayload) =>
+      core
+        .post<CreateBundleResponse>('/v1/sku/group', payload)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [BUNDLE_QUERY_KEY] })
+    },
+  })
+
   return {
     getSkuList,
     getStockTransaction,
     getBundleList,
     getSkuStockSelection,
+    getSkuOrderSelection,
     createSku,
     updateSku,
     deleteSku,
     stockAdjustment,
+    createBundle,
   }
 }
