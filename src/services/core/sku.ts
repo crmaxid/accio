@@ -4,6 +4,9 @@ import {
   CreateSkuPayload,
   CreateSkuResponse,
   DeleteSkuResponse,
+  SkuStockSelectionList,
+  StockAdjustmentPayload,
+  StockAdjustmentResponse,
   UpdateSkuPayload,
   UpdateSkuResponse,
 } from '@/types'
@@ -91,12 +94,37 @@ export const useSku = ({
     },
   })
 
+  const getSkuStockSelection = useQuery({
+    queryKey: [`${SKU_QUERY_KEY}-stock-selection`],
+    queryFn: async () =>
+      await core
+        .get<SkuStockSelectionList>('/v1/sku/stock-transactions/selection')
+        .then((res) => res.data),
+  })
+
+  const stockAdjustment = useMutation({
+    mutationFn: (payload: StockAdjustmentPayload) =>
+      core
+        .patch<StockAdjustmentResponse>('/v1/sku/stock-adjustment', payload)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`${SKU_QUERY_KEY}-stock-selection`],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [`${SKU_QUERY_KEY}-stock-transaction`],
+      })
+    },
+  })
+
   return {
     getSkuList,
     getStockTransaction,
     getBundleList,
+    getSkuStockSelection,
     createSku,
     updateSku,
     deleteSku,
+    stockAdjustment,
   }
 }
