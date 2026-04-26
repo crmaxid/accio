@@ -1,4 +1,4 @@
-import { PaginatedResponse } from './base'
+import { BaseReponse, PaginatedResponse } from './base'
 
 export interface OrderCustomer {
   id: string
@@ -59,4 +59,31 @@ export interface Order {
   payment: OrderPayment
 }
 
+export interface ShippingProviderSelection {
+  id: string
+  name: string
+}
+
+export interface CreateOrderPayload {
+  customerId: string
+  shippingProviderId?: string
+  orderType?: string
+  notes?: string | null
+  date: string
+  product: { skuId: string; quantity: number; unitPrice: number }[]
+  payment: {
+    amount: number
+    currency: string
+    method: string
+    taxAmount: number
+    subTotal: number
+    shippingFee: number
+    discount: number
+  }
+}
+
 export type OrderList = PaginatedResponse<Order>
+export type ShippingProviderSelectionList = BaseReponse<
+  ShippingProviderSelection[]
+>
+export type CreateOrderResponse = BaseReponse<{ message: string }>

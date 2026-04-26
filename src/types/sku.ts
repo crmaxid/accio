@@ -69,6 +69,9 @@ export type CreateSkuResponse = BaseReponse<{ message: string }>
 export interface SkuOrderSelection {
   id: string
   code: string
+  salePrice: number
+  resellerPrice: number
+  unitCount: number
   createdAt: string
   product: { id: string; name: string }
 }

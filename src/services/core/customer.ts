@@ -3,6 +3,7 @@ import {
   CreateCustomerPayload,
   CreateCustomerResponse,
   CustomerList,
+  CustomerSelectionList,
 } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -39,5 +40,13 @@ export const useCustomer = ({
     },
   })
 
-  return { getCustomers, createCustomer }
+  const getCustomerSelection = useQuery({
+    queryKey: [`${CUSTOMER_QUERY_KEY}-selection`],
+    queryFn: async () =>
+      await core
+        .get<CustomerSelectionList>('/v1/customer/selection')
+        .then((res) => res.data),
+  })
+
+  return { getCustomers, getCustomerSelection, createCustomer }
 }
