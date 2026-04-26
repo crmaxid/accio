@@ -1,6 +1,11 @@
 import { core } from '@/lib'
-import { OrderList } from '@/types/sales'
-import { useQuery } from '@tanstack/react-query'
+import {
+  CreateOrderPayload,
+  CreateOrderResponse,
+  OrderList,
+  ShippingProviderSelectionList,
+} from '@/types/sales'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const SALES_QUERY_KEY = 'order'
 
@@ -19,6 +24,8 @@ export const useSales = ({
   startDate?: string
   endDate?: string
 }) => {
+  const queryClient = useQueryClient()
+
   const getOrderList = useQuery({
     queryKey: [
       SALES_QUERY_KEY,
@@ -44,7 +51,29 @@ export const useSales = ({
         .then((res) => res.data),
   })
 
+  const getShippingProviderSelection = useQuery({
+    queryKey: [`${SALES_QUERY_KEY}-shipping-provider-selection`],
+    queryFn: async () =>
+      await core
+        .get<ShippingProviderSelectionList>(
+          '/v1/order/shipping-provider/selection',
+        )
+        .then((res) => res.data),
+  })
+
+  const createOrder = useMutation({
+    mutationFn: (payload: CreateOrderPayload) =>
+      core
+        .post<CreateOrderResponse>('/v1/order', payload)
+        .then((res) => res.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [SALES_QUERY_KEY] })
+    },
+  })
+
   return {
     getOrderList,
+    getShippingProviderSelection,
+    createOrder,
   }
 }

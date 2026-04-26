@@ -1,14 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import DataTable from '@/components/data-table/table'
 import { usePageTitle } from '@/hooks/use-page-title'
 import { usePagination } from '@/hooks/use-pagination'
 import { useSales } from '@/services'
 import { useSalesTable } from './_hooks/use-sales-table'
+import CreateSale from './_components/create-sale'
 
 export default function SalesPage() {
   usePageTitle('Sales')
 
+  const [createOpen, setCreateOpen] = useState(false)
   const { page, limit, setPage } = usePagination()
   const {
     columns,
@@ -42,7 +45,11 @@ export default function SalesPage() {
         search={searchConfig}
         filters={filterConfigs}
         dateRange={dateRangeConfig}
+        buttons={{
+          create: { onClick: () => setCreateOpen(true) },
+        }}
       />
+      <CreateSale open={createOpen} onOpenChange={setCreateOpen} />
     </main>
   )
 }

@@ -20,4 +20,12 @@ export interface Customer {
 
 export type CreateCustomerResponse = BaseReponse<{ message: string }>
 
+export interface CustomerSelection {
+  id: string
+  name: string
+  email: string | null
+  phone: string
+}
+
+export type CustomerSelectionList = BaseReponse<CustomerSelection[]>
 export type CustomerList = PaginatedResponse<Customer>
