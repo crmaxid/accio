@@ -30,15 +30,29 @@ import {
 } from '@hugeicons/core-free-icons'
 
 const QR_STATUS: Record<string, { label: string; className: string }> = {
-  PENDING: { label: 'Pending', className: 'bg-amber-50 text-amber-700 border-amber-100' },
-  ON_DELIVERY: { label: 'On Delivery', className: 'bg-blue-50 text-blue-700 border-blue-100' },
-  SCANNED: { label: 'Scanned', className: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+  PENDING: {
+    label: 'Pending',
+    className: 'bg-amber-50 text-amber-700 border-amber-100',
+  },
+  ON_DELIVERY: {
+    label: 'On Delivery',
+    className: 'bg-blue-50 text-blue-700 border-blue-100',
+  },
+  SCANNED: {
+    label: 'Scanned',
+    className: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+  },
 }
 
 function QrStatusBadge({ status }: { status: string }) {
-  const config = QR_STATUS[status] ?? { label: status, className: 'bg-gray-50 text-gray-500 border-gray-100' }
+  const config = QR_STATUS[status] ?? {
+    label: status,
+    className: 'bg-gray-50 text-gray-500 border-gray-100',
+  }
   return (
-    <span className={`inline-flex h-5 items-center rounded-full border px-2 text-[11px] font-medium ${config.className}`}>
+    <span
+      className={`inline-flex h-5 items-center rounded-full border px-2 text-[11px] font-medium ${config.className}`}
+    >
       {config.label}
     </span>
   )
@@ -46,7 +60,12 @@ function QrStatusBadge({ status }: { status: string }) {
 
 function ScannedCell({ scannedAt }: { scannedAt: string | null }) {
   return scannedAt ? (
-    <HugeiconsIcon icon={CheckmarkCircle01Icon} size={14} strokeWidth={2} className="text-emerald-500" />
+    <HugeiconsIcon
+      icon={CheckmarkCircle01Icon}
+      size={14}
+      strokeWidth={2}
+      className="text-emerald-500"
+    />
   ) : (
     <span className="text-sm text-gray-300">—</span>
   )
@@ -167,7 +186,11 @@ export default function RestockQrCodes({ restockId }: { restockId: string }) {
               disabled={page >= meta.totalPages}
               onClick={() => setPage((p) => p + 1)}
             >
-              <HugeiconsIcon icon={ArrowRight01Icon} size={12} strokeWidth={2} />
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={12}
+                strokeWidth={2}
+              />
             </Button>
           </div>
         </CardFooter>

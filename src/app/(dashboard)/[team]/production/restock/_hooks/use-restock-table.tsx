@@ -12,7 +12,11 @@ import {
 import { FilterConfig, SearchConfig } from '@/components/data-table/table'
 import { Button } from '@/components/ui/button'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Cancel01Icon, EyeIcon, MoreVerticalIcon } from '@hugeicons/core-free-icons'
+import {
+  Cancel01Icon,
+  EyeIcon,
+  MoreVerticalIcon,
+} from '@hugeicons/core-free-icons'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -75,7 +79,7 @@ export const useRestockTable = () => {
       cell: ({ row }) => (
         <CreatedByCell
           name={row.original.createdBy.name}
-          avatarUrl={row.original.createdBy.profile.avatarUrl}
+          avatarUrl={row.original.createdBy.profile?.avatarUrl}
         />
       ),
     },
@@ -89,42 +93,46 @@ export const useRestockTable = () => {
       header: '',
       cell: ({ row }) => (
         <div onClick={(e) => e.stopPropagation()}>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 text-gray-400 hover:text-gray-700"
-            >
-              <HugeiconsIcon icon={MoreVerticalIcon} size={14} strokeWidth={2} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-40">
-            <DropdownMenuItem asChild>
-              <Link href={`/${team}/production/restock/${row.original.id}`}>
-                <HugeiconsIcon icon={EyeIcon} size={13} strokeWidth={2} />
-                View Details
-              </Link>
-            </DropdownMenuItem>
-            {row.original.status !== 'CANCELLED' &&
-              row.original.status !== 'COMPLETED' && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="text-red-600 focus:text-red-600"
-                    onClick={() => handleCancel(row.original)}
-                  >
-                    <HugeiconsIcon
-                      icon={Cancel01Icon}
-                      size={13}
-                      strokeWidth={2}
-                    />
-                    Cancel
-                  </DropdownMenuItem>
-                </>
-              )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-gray-400 hover:text-gray-700"
+              >
+                <HugeiconsIcon
+                  icon={MoreVerticalIcon}
+                  size={14}
+                  strokeWidth={2}
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem asChild>
+                <Link href={`/${team}/production/restock/${row.original.id}`}>
+                  <HugeiconsIcon icon={EyeIcon} size={13} strokeWidth={2} />
+                  View Details
+                </Link>
+              </DropdownMenuItem>
+              {row.original.status !== 'CANCELLED' &&
+                row.original.status !== 'COMPLETED' && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="text-red-600 focus:text-red-600"
+                      onClick={() => handleCancel(row.original)}
+                    >
+                      <HugeiconsIcon
+                        icon={Cancel01Icon}
+                        size={13}
+                        strokeWidth={2}
+                      />
+                      Cancel
+                    </DropdownMenuItem>
+                  </>
+                )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ),
     },

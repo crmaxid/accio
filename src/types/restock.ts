@@ -68,7 +68,7 @@ export interface Restock {
     name: string
     profile: {
       avatarUrl: string | null
-    }
+    } | null
   }
 }
 
