@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { ColumnDef } from '@tanstack/react-table'
 import { Restock } from '@/types'
 import {
@@ -8,6 +10,16 @@ import {
   PaymentStatusBadge,
 } from '@/components/common'
 import { FilterConfig, SearchConfig } from '@/components/data-table/table'
+import { Button } from '@/components/ui/button'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Cancel01Icon, EyeIcon, MoreVerticalIcon } from '@hugeicons/core-free-icons'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 const PAYMENT_STATUS_OPTIONS = [
   { label: 'All Payment', value: 'ALL' },
@@ -26,9 +38,17 @@ const DELIVERY_STATUS_OPTIONS = [
 ]
 
 export const useRestockTable = () => {
+  const { team } = useParams<{ team: string }>()
   const [search, setSearch] = useState('')
   const [paymentStatus, setPaymentStatus] = useState('ALL')
   const [deliveryStatus, setDeliveryStatus] = useState('ALL')
+  const [cancelOpen, setCancelOpen] = useState(false)
+  const [selectedRestock, setSelectedRestock] = useState<Restock | null>(null)
+
+  const handleCancel = (restock: Restock) => {
+    setSelectedRestock(restock)
+    setCancelOpen(true)
+  }
 
   const columns: ColumnDef<Restock>[] = [
     {
@@ -64,6 +84,50 @@ export const useRestockTable = () => {
       header: 'Requested At',
       cell: ({ row }) => <DateCell iso={row.original.createdAt} />,
     },
+    {
+      id: 'actions',
+      header: '',
+      cell: ({ row }) => (
+        <div onClick={(e) => e.stopPropagation()}>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-gray-400 hover:text-gray-700"
+            >
+              <HugeiconsIcon icon={MoreVerticalIcon} size={14} strokeWidth={2} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuItem asChild>
+              <Link href={`/${team}/production/restock/${row.original.id}`}>
+                <HugeiconsIcon icon={EyeIcon} size={13} strokeWidth={2} />
+                View Details
+              </Link>
+            </DropdownMenuItem>
+            {row.original.status !== 'CANCELLED' &&
+              row.original.status !== 'COMPLETED' && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-600"
+                    onClick={() => handleCancel(row.original)}
+                  >
+                    <HugeiconsIcon
+                      icon={Cancel01Icon}
+                      size={13}
+                      strokeWidth={2}
+                    />
+                    Cancel
+                  </DropdownMenuItem>
+                </>
+              )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        </div>
+      ),
+    },
   ]
 
   const paymentFilter: FilterConfig = {
@@ -98,5 +162,8 @@ export const useRestockTable = () => {
     searchConfig,
     paymentStatusParam,
     deliveryStatusParam,
+    cancelOpen,
+    setCancelOpen,
+    selectedRestock,
   }
 }

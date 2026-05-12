@@ -2,6 +2,7 @@ import { core } from '@/lib'
 import {
   CreateDeliveryPayload,
   CreateDeliveryResponse,
+  DeliveryDetailResponse,
   DeliveryList,
 } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -13,6 +14,7 @@ interface DeliveryParams {
   limit: number
   search?: string
   status?: string
+  detailId?: string
 }
 
 export const useDelivery = ({
@@ -20,6 +22,7 @@ export const useDelivery = ({
   limit,
   search,
   status,
+  detailId,
 }: DeliveryParams) => {
   const queryClient = useQueryClient()
 
@@ -31,6 +34,17 @@ export const useDelivery = ({
           params: { page, limit, search, status },
         })
         .then((res) => res.data),
+  })
+
+  const getDeliveryDetail = useQuery({
+    queryKey: [DELIVERY_QUERY_KEY, 'detail', detailId],
+    queryFn: async () =>
+      core
+        .get<DeliveryDetailResponse>(
+          `/v1/stock-replenishment/delivery/${detailId}`,
+        )
+        .then((res) => res.data),
+    enabled: !!detailId,
   })
 
   const createDelivery = useMutation({
@@ -51,6 +65,7 @@ export const useDelivery = ({
 
   return {
     getAllDelivery,
+    getDeliveryDetail,
     createDelivery,
   }
 }
