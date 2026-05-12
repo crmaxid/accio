@@ -1,6 +1,10 @@
 import type { NextConfig } from 'next'
 
-const isDev = process.env.NODE_ENV === 'development'
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
+if (!API_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL is not set')
+}
 
 const nextConfig: NextConfig = {
   images: {
@@ -14,32 +18,28 @@ const nextConfig: NextConfig = {
   },
 
   async rewrites() {
-    if (isDev) {
-      return [
-        {
-          source: '/core/v1/:path*',
-          destination: 'https://api.cims.mjolnir.crmax.id/core/v1/:path*',
-        },
-        {
-          source: '/core/v2/:path*',
-          destination: 'https://api.cims.mjolnir.crmax.id/core/v2/:path*',
-        },
-        {
-          source: '/core-report/:path*',
-          destination: 'https://api.cims.mjolnir.crmax.id/core-report/:path*',
-        },
-        {
-          source: '/core-document/:path*',
-          destination: 'https://api.cims.mjolnir.crmax.id/core-document/:path*',
-        },
-        {
-          source: '/core-analytics/v1/:path*',
-          destination:
-            'https://api.cims.mjolnir.crmax.id/core-analytics/v1/:path*',
-        },
-      ]
-    }
-    return []
+    return [
+      {
+        source: '/core/v1/:path*',
+        destination: `${API_URL}/core/v1/:path*`,
+      },
+      {
+        source: '/core/v2/:path*',
+        destination: `${API_URL}/core/v2/:path*`,
+      },
+      {
+        source: '/core-report/:path*',
+        destination: `${API_URL}/core-report/:path*`,
+      },
+      {
+        source: '/core-document/:path*',
+        destination: `${API_URL}/core-document/:path*`,
+      },
+      {
+        source: '/core-analytics/v1/:path*',
+        destination: `${API_URL}/core-analytics/v1/:path*`,
+      },
+    ]
   },
 }
 
