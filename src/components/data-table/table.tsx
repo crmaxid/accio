@@ -90,6 +90,7 @@ interface DataTableProps<T> {
   meta?: PaginationMeta
   isLoading?: boolean
   onPageChange: (page: number) => void
+  onRowClick?: (row: T) => void
   search?: SearchConfig
   filters?: FilterConfig[]
   dateRange?: DateRangeConfig
@@ -103,6 +104,7 @@ export default function DataTable<T>({
   meta = DEFAULT_META,
   isLoading = false,
   onPageChange,
+  onRowClick,
   search,
   filters,
   dateRange,
@@ -340,7 +342,10 @@ export default function DataTable<T>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="border-b border-gray-50 transition-colors hover:bg-gray-50/50"
+                  className={`border-b border-gray-50 transition-colors hover:bg-gray-50/50 ${onRowClick ? 'cursor-pointer' : ''}`}
+                  onClick={
+                    onRowClick ? () => onRowClick(row.original) : undefined
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
