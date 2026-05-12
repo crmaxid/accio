@@ -1,6 +1,13 @@
 'use client'
 
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
@@ -19,9 +26,17 @@ interface RestockProgressProps {
   isLoading?: boolean
 }
 
-function getProgress(paymentStatus: string, deliveryStatus: string, status: string) {
+function getProgress(
+  paymentStatus: string,
+  deliveryStatus: string,
+  status: string,
+) {
   const paymentProgress =
-    paymentStatus === 'FULLY_PAID' ? 50 : paymentStatus === 'PARTIALLY_PAID' ? 25 : 0
+    paymentStatus === 'FULLY_PAID'
+      ? 50
+      : paymentStatus === 'PARTIALLY_PAID'
+        ? 25
+        : 0
 
   const deliveryProgress =
     deliveryStatus === 'DELIVERED'
@@ -39,7 +54,12 @@ function getProgress(paymentStatus: string, deliveryStatus: string, status: stri
   else if (deliveryProgress > 0) stepIndex = 2
   else if (paymentProgress > 0 || status === 'IN_PROGRESS') stepIndex = 1
 
-  return { total: Math.max(25, total), paymentProgress, deliveryProgress, stepIndex }
+  return {
+    total: Math.max(25, total),
+    paymentProgress,
+    deliveryProgress,
+    stepIndex,
+  }
 }
 
 function getStepStatus(
@@ -51,7 +71,8 @@ function getStepStatus(
   if (index === 0) return 'completed'
   if (index === 1) {
     if (paymentStatus === 'FULLY_PAID') return 'completed'
-    if (paymentStatus === 'PARTIALLY_PAID' || status === 'IN_PROGRESS') return 'active'
+    if (paymentStatus === 'PARTIALLY_PAID' || status === 'IN_PROGRESS')
+      return 'active'
     return 'pending'
   }
   if (index === 2) {
@@ -141,7 +162,8 @@ export default function RestockProgress({
           ? 'Delivery completed'
           : deliveryStatus === 'PARTIALLY_DELIVERED'
             ? 'Partial delivery in progress'
-            : deliveryStatus === 'IN_PROGRESS' || deliveryStatus === 'ON_PROGRESS'
+            : deliveryStatus === 'IN_PROGRESS' ||
+                deliveryStatus === 'ON_PROGRESS'
               ? 'Items in transit'
               : 'Preparing for delivery',
     },
@@ -204,7 +226,12 @@ export default function RestockProgress({
 
         <div className="flex flex-col gap-3">
           {steps.map((step, index) => {
-            const stepStatus = getStepStatus(index, paymentStatus, deliveryStatus, status)
+            const stepStatus = getStepStatus(
+              index,
+              paymentStatus,
+              deliveryStatus,
+              status,
+            )
 
             return (
               <div
@@ -223,7 +250,7 @@ export default function RestockProgress({
                   <HugeiconsIcon icon={step.icon} size={15} strokeWidth={2} />
                 </div>
 
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <p
                     className={`text-xs font-medium ${
                       stepStatus === 'completed'
@@ -235,7 +262,9 @@ export default function RestockProgress({
                   >
                     {step.label}
                   </p>
-                  <p className="text-[11px] text-gray-400">{step.description}</p>
+                  <p className="text-[11px] text-gray-400">
+                    {step.description}
+                  </p>
                 </div>
               </div>
             )

@@ -3,7 +3,13 @@
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { RestockDeliveryItem } from '@/types'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -32,7 +38,8 @@ export default function RestockDelivery({
         <CardTitle>Delivery Information</CardTitle>
         {!isLoading && deliveries.length > 0 && (
           <CardDescription>
-            {deliveries.length} {deliveries.length === 1 ? 'delivery' : 'deliveries'}
+            {deliveries.length}{' '}
+            {deliveries.length === 1 ? 'delivery' : 'deliveries'}
           </CardDescription>
         )}
       </CardHeader>
@@ -71,14 +78,27 @@ export default function RestockDelivery({
                       <DeliveryStatusBadge value={delivery.status} />
                     </div>
                     <div className="flex items-center gap-1 text-[11px] text-gray-400">
-                      <HugeiconsIcon icon={Calendar01Icon} size={11} strokeWidth={2} />
+                      <HugeiconsIcon
+                        icon={Calendar01Icon}
+                        size={11}
+                        strokeWidth={2}
+                      />
                       {date}
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="h-7 px-2.5 text-xs" asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2.5 text-xs"
+                    asChild
+                  >
                     <Link href={`/${team}/production/delivery/${delivery.id}`}>
                       View
-                      <HugeiconsIcon icon={ArrowRight01Icon} size={12} strokeWidth={2} />
+                      <HugeiconsIcon
+                        icon={ArrowRight01Icon}
+                        size={12}
+                        strokeWidth={2}
+                      />
                     </Link>
                   </Button>
                 </div>

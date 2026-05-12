@@ -89,10 +89,16 @@ export default function RestockPayment({
           <Button
             size="sm"
             onClick={handleGenerateInvoice}
-            disabled={generateInvoice.isPending || restockStatus === 'CANCELLED'}
+            disabled={
+              generateInvoice.isPending || restockStatus === 'CANCELLED'
+            }
           >
             {generateInvoice.isPending ? (
-              <HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="animate-spin" />
+              <HugeiconsIcon
+                icon={Loading03Icon}
+                strokeWidth={2}
+                className="animate-spin"
+              />
             ) : (
               <HugeiconsIcon icon={FileEditIcon} size={13} strokeWidth={2} />
             )}
@@ -106,7 +112,10 @@ export default function RestockPayment({
   const isFullyPaid = invoice.paidAmount >= invoice.totalPrice
   const paymentProgress =
     invoice.totalPrice > 0
-      ? Math.min(100, Math.round((invoice.paidAmount / invoice.totalPrice) * 100))
+      ? Math.min(
+          100,
+          Math.round((invoice.paidAmount / invoice.totalPrice) * 100),
+        )
       : 0
   const statusClass =
     INVOICE_STATUS_CLASS[invoice.status.toLowerCase()] ??
@@ -137,7 +146,9 @@ export default function RestockPayment({
               <span className="text-[11px] font-medium tracking-wider text-gray-400 uppercase">
                 Payment Progress
               </span>
-              <span className="text-[11px] font-semibold text-gray-600">{paymentProgress}%</span>
+              <span className="text-[11px] font-semibold text-gray-600">
+                {paymentProgress}%
+              </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
               <div
@@ -165,7 +176,8 @@ export default function RestockPayment({
                       {item.product.product.name}
                     </p>
                     <p className="text-[11px] text-gray-400">
-                      {item.quantity} {item.product.uom} × {formatCurrency(item.productionPrice)}
+                      {item.quantity} {item.product.uom} ×{' '}
+                      {formatCurrency(item.productionPrice)}
                     </p>
                   </div>
                   <p className="text-xs font-semibold text-gray-700">
@@ -184,7 +196,9 @@ export default function RestockPayment({
               Payment History ({invoice.payments.length})
             </span>
             {invoice.payments.length === 0 ? (
-              <p className="text-[11px] text-gray-400">No payments recorded yet.</p>
+              <p className="text-[11px] text-gray-400">
+                No payments recorded yet.
+              </p>
             ) : (
               <div className="space-y-1.5">
                 {invoice.payments.map((payment) => (
@@ -193,8 +207,12 @@ export default function RestockPayment({
                     className="flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50/50 px-3 py-2"
                   >
                     <div>
-                      <p className="text-xs font-medium text-gray-700">{payment.paymentMethod}</p>
-                      <p className="text-[11px] text-gray-400">{formatCurrency(payment.amount)}</p>
+                      <p className="text-xs font-medium text-gray-700">
+                        {payment.paymentMethod}
+                      </p>
+                      <p className="text-[11px] text-gray-400">
+                        {formatCurrency(payment.amount)}
+                      </p>
                     </div>
                     {payment.file?.url && (
                       <Button variant="outline" size="sm" asChild>
@@ -203,7 +221,11 @@ export default function RestockPayment({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <HugeiconsIcon icon={FileDownloadIcon} size={11} strokeWidth={2} />
+                          <HugeiconsIcon
+                            icon={FileDownloadIcon}
+                            size={11}
+                            strokeWidth={2}
+                          />
                           Proof
                         </a>
                       </Button>
@@ -220,16 +242,22 @@ export default function RestockPayment({
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between text-[11px] text-gray-500">
               <span>Total Amount</span>
-              <span className="font-medium text-gray-700">{formatCurrency(invoice.totalPrice)}</span>
+              <span className="font-medium text-gray-700">
+                {formatCurrency(invoice.totalPrice)}
+              </span>
             </div>
             <div className="flex items-center justify-between text-[11px] text-emerald-600">
               <span>Amount Paid</span>
-              <span className="font-medium">{formatCurrency(invoice.paidAmount)}</span>
+              <span className="font-medium">
+                {formatCurrency(invoice.paidAmount)}
+              </span>
             </div>
             {invoice.remainingAmount > 0 && (
               <div className="flex items-center justify-between text-[11px] text-red-600">
                 <span>Remaining</span>
-                <span className="font-medium">{formatCurrency(invoice.remainingAmount)}</span>
+                <span className="font-medium">
+                  {formatCurrency(invoice.remainingAmount)}
+                </span>
               </div>
             )}
           </div>
@@ -245,7 +273,9 @@ export default function RestockPayment({
                   strokeWidth={2}
                   className="text-emerald-500"
                 />
-                <span className="font-medium text-emerald-700">Payment complete</span>
+                <span className="font-medium text-emerald-700">
+                  Payment complete
+                </span>
               </>
             ) : (
               <span className="text-gray-500">
@@ -261,7 +291,11 @@ export default function RestockPayment({
                 rel="noopener noreferrer"
                 className="inline-flex h-7 items-center gap-1.5 rounded-md border border-gray-200 px-2.5 text-[11px] font-medium text-gray-600 hover:bg-gray-50"
               >
-                <HugeiconsIcon icon={FileDownloadIcon} size={12} strokeWidth={2} />
+                <HugeiconsIcon
+                  icon={FileDownloadIcon}
+                  size={12}
+                  strokeWidth={2}
+                />
                 Download Invoice
               </a>
             )}

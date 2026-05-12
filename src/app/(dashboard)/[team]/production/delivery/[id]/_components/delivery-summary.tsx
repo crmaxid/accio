@@ -13,7 +13,10 @@ interface DeliverySummaryProps {
   isLoading: boolean
 }
 
-export default function DeliverySummary({ delivery, isLoading }: DeliverySummaryProps) {
+export default function DeliverySummary({
+  delivery,
+  isLoading,
+}: DeliverySummaryProps) {
   const { team } = useParams<{ team: string }>()
 
   if (isLoading) {
@@ -34,7 +37,10 @@ export default function DeliverySummary({ delivery, isLoading }: DeliverySummary
   if (!delivery) return null
 
   const { date } = formatDateTime(delivery.deliveryDate)
-  const totalQuantity = delivery.items.reduce((sum, item) => sum + item.quantity, 0)
+  const totalQuantity = delivery.items.reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  )
 
   return (
     <Card>
@@ -97,7 +103,9 @@ export default function DeliverySummary({ delivery, isLoading }: DeliverySummary
             <span className="text-[11px] font-medium tracking-wider text-gray-400 uppercase">
               Notes
             </span>
-            <p className="text-xs leading-relaxed text-gray-600">{delivery.notes}</p>
+            <p className="text-xs leading-relaxed text-gray-600">
+              {delivery.notes}
+            </p>
           </div>
         )}
       </CardContent>

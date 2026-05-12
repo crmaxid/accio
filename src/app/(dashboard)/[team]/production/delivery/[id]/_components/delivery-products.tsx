@@ -1,7 +1,13 @@
 'use client'
 
 import { DeliveryProduct } from '@/types'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/lib/utils/format'
@@ -11,7 +17,10 @@ interface DeliveryProductsProps {
   isLoading: boolean
 }
 
-export default function DeliveryProducts({ items, isLoading }: DeliveryProductsProps) {
+export default function DeliveryProducts({
+  items,
+  isLoading,
+}: DeliveryProductsProps) {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
@@ -73,7 +82,9 @@ export default function DeliveryProducts({ items, isLoading }: DeliveryProductsP
                     <span className="text-sm font-semibold text-gray-800">
                       {item.quantity}
                     </span>
-                    <span className="text-[10px] text-gray-400">{packageType}</span>
+                    <span className="text-[10px] text-gray-400">
+                      {packageType}
+                    </span>
                   </div>
                 </div>
               )
@@ -89,7 +100,9 @@ export default function DeliveryProducts({ items, isLoading }: DeliveryProductsP
           </span>
           <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-xs">
             <span className="mr-4 text-gray-500">Total Quantity</span>
-            <span className="text-sm font-semibold text-gray-900">{totalQuantity}</span>
+            <span className="text-sm font-semibold text-gray-900">
+              {totalQuantity}
+            </span>
           </div>
         </CardFooter>
       )}
