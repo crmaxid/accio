@@ -13,6 +13,7 @@ import { TEAMS_CONFIG } from '@/lib/config/teams.config'
 import { TeamSwitcher } from './team-switcher'
 import { NavMain } from './nav-main'
 import { NavUser } from './nav-user'
+import { NavWhatsapp } from './nav-whatsapp'
 import { useUserStore } from '@/stores'
 
 export function AppSidebar() {
@@ -49,6 +50,7 @@ export function AppSidebar() {
         <NavMain items={navItems} />
       </SidebarContent>
       <SidebarFooter>
+        <NavWhatsapp />
         <NavUser
           user={{
             name: user?.name ?? '',
