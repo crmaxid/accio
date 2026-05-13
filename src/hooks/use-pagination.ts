@@ -7,7 +7,7 @@ export function usePagination(initialLimit = 15) {
   const searchParams = useSearchParams()
 
   const page = Number(searchParams.get('page') ?? 1)
-  const limit = initialLimit
+  const limit = Number(searchParams.get('limit') ?? initialLimit)
 
   const setPage = useCallback(
     (newPage: number) => {
@@ -18,5 +18,15 @@ export function usePagination(initialLimit = 15) {
     [router, pathname, searchParams],
   )
 
-  return { page, limit, setPage }
+  const setLimit = useCallback(
+    (newLimit: number) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('limit', String(newLimit))
+      params.set('page', '1')
+      router.push(`${pathname}?${params.toString()}`)
+    },
+    [router, pathname, searchParams],
+  )
+
+  return { page, limit, setPage, setLimit }
 }

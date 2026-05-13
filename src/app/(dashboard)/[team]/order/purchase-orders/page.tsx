@@ -1,22 +1,22 @@
 'use client'
 
 import { useState } from 'react'
-import { useCustomer } from '@/services'
+import { usePurchaseOrder } from '@/services/core/purchase-order'
 import { usePagination } from '@/hooks/use-pagination'
-import DataTable from '@/components/data-table/table'
 import { usePageTitle } from '@/hooks/use-page-title'
-import { useCustomerTable } from './_hooks/use-customer-table'
-import CreateCustomer from './_components/create-customer'
+import DataTable from '@/components/data-table/table'
+import { usePurchaseOrderTable } from './_hooks/use-purchase-order-table'
+import CreatePurchaseOrder from './_components/create-purchase-order'
 
-export default function DatabasePage() {
-  usePageTitle('Customers')
+export default function PurchaseOrdersPage() {
+  usePageTitle('Purchase Orders')
 
   const [createOpen, setCreateOpen] = useState(false)
   const { page, limit, setPage, setLimit } = usePagination()
-  const { columns, search, searchConfig, filterConfig } = useCustomerTable()
+  const { columns, search, searchConfig } = usePurchaseOrderTable()
 
-  const { getCustomers } = useCustomer({ page, limit, search })
-  const { data, isLoading } = getCustomers
+  const { getPurchaseOrders } = usePurchaseOrder({ page, limit, search })
+  const { data, isLoading } = getPurchaseOrders
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,12 +28,11 @@ export default function DatabasePage() {
         onPageChange={setPage}
         onLimitChange={setLimit}
         search={searchConfig}
-        filters={filterConfig}
         buttons={{
           create: { onClick: () => setCreateOpen(true) },
         }}
       />
-      <CreateCustomer open={createOpen} onOpenChange={setCreateOpen} />
+      <CreatePurchaseOrder open={createOpen} onOpenChange={setCreateOpen} />
     </div>
   )
 }

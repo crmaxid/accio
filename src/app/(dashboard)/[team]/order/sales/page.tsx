@@ -12,7 +12,7 @@ export default function SalesPage() {
   usePageTitle('Sales')
 
   const [createOpen, setCreateOpen] = useState(false)
-  const { page, limit, setPage } = usePagination()
+  const { page, limit, setPage, setLimit } = usePagination()
   const {
     columns,
     search,
@@ -41,6 +41,7 @@ export default function SalesPage() {
         meta={data?.data?.meta}
         columns={columns}
         onPageChange={setPage}
+        onLimitChange={setLimit}
         isLoading={isLoading}
         search={searchConfig}
         filters={filterConfigs}

@@ -17,7 +17,7 @@ export default function RestockPage() {
   const router = useRouter()
   const { team } = useParams<{ team: string }>()
   const [createOpen, setCreateOpen] = useState(false)
-  const { page, limit, setPage } = usePagination()
+  const { page, limit, setPage, setLimit } = usePagination()
   const {
     columns,
     search,
@@ -47,6 +47,7 @@ export default function RestockPage() {
         meta={data?.data?.meta}
         columns={columns}
         onPageChange={setPage}
+        onLimitChange={setLimit}
         onRowClick={(row: Restock) =>
           router.push(`/${team}/production/restock/${row.id}`)
         }
