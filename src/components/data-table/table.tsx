@@ -22,6 +22,8 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  ArrowLeftDoubleIcon,
+  ArrowRightDoubleIcon,
   Search01Icon,
   Calendar01Icon,
   Cancel01Icon,
@@ -29,6 +31,7 @@ import {
   Add01Icon,
   Edit02Icon,
   FileExportIcon,
+  Table01Icon,
 } from '@hugeicons/core-free-icons'
 import { Input } from '../ui/input'
 import {
@@ -49,6 +52,10 @@ const DEFAULT_META: PaginationMeta = {
   limit: 20,
   totalPages: 1,
 }
+
+const LIMIT_OPTIONS = [10, 15, 20, 50, 100]
+
+const SKELETON_WIDTHS = ['w-3/4', 'w-1/2', 'w-full', 'w-2/3', 'w-5/6']
 
 export interface FilterOption {
   label: string
@@ -90,6 +97,7 @@ interface DataTableProps<T> {
   meta?: PaginationMeta
   isLoading?: boolean
   onPageChange: (page: number) => void
+  onLimitChange?: (limit: number) => void
   onRowClick?: (row: T) => void
   search?: SearchConfig
   filters?: FilterConfig[]
@@ -104,6 +112,7 @@ export default function DataTable<T>({
   meta = DEFAULT_META,
   isLoading = false,
   onPageChange,
+  onLimitChange,
   onRowClick,
   search,
   filters,
@@ -303,13 +312,13 @@ export default function DataTable<T>({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-gray-100 bg-gray-50/60 hover:bg-gray-50/60"
+                className="border-b border-gray-200 bg-gray-50/40 hover:bg-gray-50/40"
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
@@ -330,10 +339,12 @@ export default function DataTable<T>({
           <TableBody>
             {isLoading ? (
               Array.from({ length: meta.limit }).map((_, i) => (
-                <TableRow key={i} className="border-b border-gray-50">
+                <TableRow key={i} className="border-b border-gray-100">
                   {columns.map((_, j) => (
                     <TableCell key={j} className="px-4 py-3">
-                      <Skeleton className="h-4 w-full rounded-md" />
+                      <Skeleton
+                        className={`h-4 rounded-md ${SKELETON_WIDTHS[(i * 3 + j) % SKELETON_WIDTHS.length]}`}
+                      />
                     </TableCell>
                   ))}
                 </TableRow>
@@ -342,7 +353,7 @@ export default function DataTable<T>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`border-b border-gray-50 transition-colors hover:bg-gray-50/50 ${onRowClick ? 'cursor-pointer' : ''}`}
+                  className={`border-b border-gray-100 transition-colors hover:bg-gray-50 ${onRowClick ? 'cursor-pointer' : ''}`}
                   onClick={
                     onRowClick ? () => onRowClick(row.original) : undefined
                   }
@@ -364,44 +375,93 @@ export default function DataTable<T>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-32 text-center text-xs text-gray-400"
+                  className="h-48 text-center"
                 >
-                  No data found.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <HugeiconsIcon
+                      icon={Table01Icon}
+                      size={28}
+                      className="text-gray-200"
+                    />
+                    <p className="text-xs text-gray-400">No data found.</p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-      </div>
 
-      <div className="flex items-center justify-between px-1">
-        <p className="text-xs text-gray-400">
-          {meta.total > 0
-            ? `${(meta.page - 1) * meta.limit + 1}–${Math.min(meta.page * meta.limit, meta.total)} of ${meta.total} results`
-            : 'No results'}
-        </p>
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
-            onClick={() => onPageChange(meta.page - 1)}
-            disabled={!canPrev || isLoading}
-          >
-            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
-          </Button>
-          <span className="min-w-20 text-center text-xs text-gray-500">
-            Page {meta.page} of {meta.totalPages || 1}
-          </span>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
-            onClick={() => onPageChange(meta.page + 1)}
-            disabled={!canNext || isLoading}
-          >
-            <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
-          </Button>
+        <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-gray-400">
+              {meta.total > 0
+                ? `${(meta.page - 1) * meta.limit + 1}–${Math.min(meta.page * meta.limit, meta.total)} of ${meta.total} results`
+                : 'No results'}
+            </p>
+            {onLimitChange && (
+              <Select
+                value={String(meta.limit)}
+                onValueChange={(v) => onLimitChange(Number(v))}
+              >
+                <SelectTrigger className="h-8 w-auto gap-1.5 rounded-full border border-gray-200 bg-white px-3 text-xs font-medium text-gray-500 shadow-none transition-all hover:border-gray-300 hover:text-gray-700 [&>svg]:hidden">
+                  <span className="text-gray-400">Rows</span>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl shadow-lg">
+                  {LIMIT_OPTIONS.map((opt) => (
+                    <SelectItem
+                      key={opt}
+                      value={String(opt)}
+                      className="text-xs"
+                    >
+                      {opt}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
+              onClick={() => onPageChange(1)}
+              disabled={!canPrev || isLoading}
+            >
+              <HugeiconsIcon icon={ArrowLeftDoubleIcon} size={16} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
+              onClick={() => onPageChange(meta.page - 1)}
+              disabled={!canPrev || isLoading}
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
+            </Button>
+            <span className="min-w-20 text-center text-xs text-gray-500">
+              Page {meta.page} of {meta.totalPages || 1}
+            </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
+              onClick={() => onPageChange(meta.page + 1)}
+              disabled={!canNext || isLoading}
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 rounded-lg text-gray-400 hover:text-gray-600"
+              onClick={() => onPageChange(meta.totalPages)}
+              disabled={!canNext || isLoading}
+            >
+              <HugeiconsIcon icon={ArrowRightDoubleIcon} size={16} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

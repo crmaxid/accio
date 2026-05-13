@@ -12,7 +12,7 @@ export default function BundlePage() {
   usePageTitle('Bundles')
 
   const [createOpen, setCreateOpen] = useState(false)
-  const { page, limit, setPage } = usePagination()
+  const { page, limit, setPage, setLimit } = usePagination()
   const { columns, search, searchConfig } = useBundleTable()
   const { getBundleList } = useSku({ page, limit, search })
   const { data, isLoading } = getBundleList
@@ -24,6 +24,7 @@ export default function BundlePage() {
         meta={data?.data?.meta}
         columns={columns}
         onPageChange={setPage}
+        onLimitChange={setLimit}
         isLoading={isLoading}
         search={searchConfig}
         buttons={{
