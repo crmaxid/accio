@@ -16,7 +16,7 @@ export default function DeliveryPage() {
   const router = useRouter()
   const { team } = useParams<{ team: string }>()
   const [createOpen, setCreateOpen] = useState(false)
-  const { page, limit, setPage } = usePagination()
+  const { page, limit, setPage, setLimit } = usePagination()
 
   const { columns, search, statusFilter, searchConfig, statusParam } =
     useDeliveryTable()
@@ -40,6 +40,7 @@ export default function DeliveryPage() {
         meta={data?.data?.meta}
         columns={columns}
         onPageChange={setPage}
+        onLimitChange={setLimit}
         onRowClick={handleRowClick}
         isLoading={isLoading}
         search={searchConfig}

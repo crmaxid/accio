@@ -12,7 +12,7 @@ export default function DatabasePage() {
   usePageTitle('Customers')
 
   const [createOpen, setCreateOpen] = useState(false)
-  const { page, limit, setPage } = usePagination()
+  const { page, limit, setPage, setLimit } = usePagination()
   const { columns, search, searchConfig, filterConfig } = useCustomerTable()
 
   const { getCustomers } = useCustomer({ page, limit, search })
@@ -26,6 +26,7 @@ export default function DatabasePage() {
         meta={data?.data?.meta}
         isLoading={isLoading}
         onPageChange={setPage}
+        onLimitChange={setLimit}
         search={searchConfig}
         filters={filterConfig}
         buttons={{
